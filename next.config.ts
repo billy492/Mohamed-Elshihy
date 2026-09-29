@@ -19,10 +19,15 @@ const nextConfig: NextConfig = {
   // Vercel's builder only looks for `.next`, so the workaround stays local-only.
   // NEXT_DIST_DIR lets a production build be measured next to a running dev server.
   distDir: process.env.VERCEL ? ".next" : (process.env.NEXT_DIST_DIR ?? ".next.nosync"),
+  // The Docker image ships only the traced server bundle (see Dockerfile).
+  output: process.env.NEXT_STANDALONE ? "standalone" : undefined,
   poweredByHeader: false,
   devIndicators: false,
   images: {
     formats: ["image/avif", "image/webp"],
+  },
+  async redirects() {
+    return [{ source: "/programs", destination: "/coaching", permanent: true }];
   },
   async headers() {
     return [

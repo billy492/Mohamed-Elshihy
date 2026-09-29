@@ -70,7 +70,7 @@ const personJsonLd = {
   alternateName: [site.short, site.arabic],
   jobTitle: "Performance coach",
   alumniOf: { "@type": "SportsOrganization", name: "Al Ahly SC" },
-  sameAs: [site.social.instagram.href],
+  sameAs: [site.social.instagram.href, site.social.youtube.href],
   url: site.url,
 };
 

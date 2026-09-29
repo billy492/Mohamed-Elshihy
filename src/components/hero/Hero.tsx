@@ -234,7 +234,7 @@ export default function Hero() {
             <span className="hero-dot" aria-hidden="true" />
             {site.role}
           </p>
-          <a className="hero-kicker hero-kicker-r" href="#trainings">
+          <a className="hero-kicker hero-kicker-r" href="#levels">
             <span className="hero-live" aria-hidden="true" />
             Applications open
           </a>
@@ -247,23 +247,18 @@ export default function Hero() {
 
         <div className="hero-foot">
           <p className="hero-intro">
-            I coach athletes who are done guessing. Tested, diagnosed, fixed, re-tested.
+            Online &amp; hybrid coaching, built around one thing: you.
           </p>
           <div className="hero-actions">
             <Link className="btn btn-solid" href="/apply" data-cursor="Apply">
               <span className="btn-icon" aria-hidden="true" />
               Apply for coaching
             </Link>
-            <a className="btn btn-ghost" href="#trainings" data-cursor="Scroll">
-              See all trainings
+            <a className="btn btn-ghost" href="#levels" data-cursor="Scroll">
+              See the programs
             </a>
           </div>
         </div>
-
-        <p className="hero-second" aria-hidden="true">
-          <span>See what</span>
-          <span>others miss.</span>
-        </p>
 
         <div className="hero-scroll" aria-hidden="true">
           <span>Scroll</span>

@@ -47,7 +47,7 @@ export default function ApplyFlow({
   initialPathway?: string;
   plate: React.ReactNode;
 }) {
-  const [track, setTrack] = useState<Track>(initialTrack);
+  const [track] = useState<Track>(initialTrack);
   const steps = useMemo(() => stepsFor(track), [track]);
   const [answers, setAnswers] = useState<Answers>(() =>
     initialPathway ? { track: initialTrack, pathway: initialPathway } : { track: initialTrack },
@@ -113,18 +113,6 @@ export default function ApplyFlow({
     });
   }, []);
 
-  const switchTrack = (t: Track) => {
-    if (t === track) return;
-    const keep = ["name", "email", "phone", "location", "instagram"];
-    const carried = Object.fromEntries(keep.filter((k) => answers[k]).map((k) => [k, answers[k]]));
-    setTrack(t);
-    setAnswers({ ...(readDraft(t) ?? {}), ...carried, track: t });
-    setStepIndex(0);
-    setErrors({});
-    setMessage(null);
-    window.history.replaceState(null, "", t === "mentorship" ? "/apply?track=mentorship" : "/apply");
-  };
-
   const next = () => {
     const found = validateStep(track, step, answers);
     setErrors(found);
@@ -185,20 +173,7 @@ export default function ApplyFlow({
 
         <div className="apply-side-mid">
           <p className="apply-kicker">Apply</p>
-          <div className="apply-tracks" role="group" aria-label="What are you applying for?">
-            {(["coaching", "mentorship"] as const).map((t) => (
-              <button
-                key={t}
-                type="button"
-                className="apply-track"
-                aria-pressed={track === t}
-                onClick={() => switchTrack(t)}
-                disabled={Boolean(done)}
-              >
-                {t === "coaching" ? "Coaching" : "Mentorship"}
-              </button>
-            ))}
-          </div>
+          {/* Mentorship is coming soon: coaching is the only track for now. */}
           <ol className="apply-steps" aria-label="Steps">
             {steps.map((s, i) => (
               <li

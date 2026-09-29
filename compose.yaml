@@ -1,0 +1,27 @@
+# docker compose up --build   → http://localhost:3000
+#
+# Runtime settings (ADMIN_PASSWORD, ADMIN_SESSION_SECRET, KV_*, RESEND_*…) are
+# read from .env and/or .env.local, whichever exist. See .env.example.
+
+services:
+  web:
+    build:
+      context: .
+      args:
+        # Baked into the client bundle at build time; rebuild after changing it.
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://shihy.coaching}
+    image: shihy
+    ports:
+      - "${PORT:-3000}:3000"
+    env_file:
+      - path: .env
+        required: false
+      - path: .env.local
+        required: false
+    volumes:
+      # File store for applications when Upstash isn't configured.
+      - shihy-data:/app/.data
+    restart: unless-stopped
+
+volumes:
+  shihy-data:

@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 import Split from "@/components/site/Split";
 import { useScrollVar } from "@/lib/useScrollVar";
 import { imgSrcSet } from "@/lib/img";
-import { shots } from "@/content/media";
+import { work } from "@/content/media";
 import { words } from "@/content/record";
 
 // The coach himself. The portrait develops like a print in the tray: it opens
@@ -56,7 +56,7 @@ export default function Coach() {
     };
   }, []);
 
-  const p = shots.pitch;
+  const p = work.portraitSmile;
   return (
     <section ref={ref} className="cch" data-tone="chalk" aria-labelledby="cch-title">
       <figure className="cch-photo">
@@ -66,16 +66,12 @@ export default function Coach() {
           srcSet={imgSrcSet(p.src)}
           sizes="(max-width: 900px) 100vw, 42vw"
           alt={p.alt}
-          width={1500}
+          width={1600}
           height={2000}
           loading="lazy"
           decoding="async"
         />
-        <figcaption className="cch-cap">
-          <a href={p.post} target="_blank" rel="noopener">
-            @shihy.sc
-          </a>
-        </figcaption>
+        <figcaption className="cch-cap">Al Ahly SC</figcaption>
       </figure>
       <div className="cch-copy">
         <span className="tag">

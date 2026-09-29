@@ -119,9 +119,14 @@ export function textProps(text: string | undefined): { dir: "auto"; lang?: strin
 // Short forms for the list rows, where the full option labels are too long.
 export const PATHWAY_SHORT: Record<string, string> = {
   online: "Online",
+  athlete: "Online athlete",
+  premium: "Premium",
+  pro: "Pro",
+  rehab: "Pro rehab",
+  unsure: "Not sure",
+  // levels before the brochure, on older applications
   hybrid: "Hybrid",
   performance: "Performance",
-  unsure: "Not sure",
 };
 
 export const ROLE_SHORT: Record<string, string> = {

@@ -4,7 +4,7 @@ import Split from "@/components/site/Split";
 import Ticker from "@/components/site/Ticker";
 import FinalCta from "@/components/home/FinalCta";
 import { education, learning, philosophy, roles, words } from "@/content/record";
-import { shots } from "@/content/media";
+import { shots, work } from "@/content/media";
 import { imgSrcSet } from "@/lib/img";
 import { credentials } from "@/content/coaching";
 import { site } from "@/content/site";
@@ -24,7 +24,7 @@ export default function AboutPage() {
         lines={["Mohamed", "El Shihy"]}
         kicker="The coach"
         lede="Six years and 18+ titles with Al Ahly SC. Coach, educator, mentor. Obsessed with finding the problem."
-        image={shots.pitch.src}
+        image={work.portraitBall.src}
         cta={{ href: "/apply", label: "Apply for coaching" }}
       />
       <Ticker items={credentials} className="ticker-red" />
@@ -41,6 +41,20 @@ export default function AboutPage() {
           <p>{words.alAhly}</p>
           <cite>Shihy, leaving Al Ahly, August 2026</cite>
         </blockquote>
+        <div className="about-photos">
+          {[work.staffEmbrace, work.staffHug].map((p) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              key={p.src}
+              src={p.src}
+              srcSet={imgSrcSet(p.src)}
+              sizes="(max-width: 760px) 50vw, 40vw"
+              alt={p.alt}
+              loading="lazy"
+              decoding="async"
+            />
+          ))}
+        </div>
         <dl className="spec">
           {roles.map((r) => (
             <div key={r.what + r.where}>

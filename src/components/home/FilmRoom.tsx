@@ -57,15 +57,13 @@ export default function FilmRoom({ page = false }: { page?: boolean }) {
         </ul>
       </div>
       <div className="actions flm-actions">
-        <a className="btn btn-solid" href={site.social.instagram.href} target="_blank" rel="noopener" data-magnet>
+        <a className="btn btn-solid" href={site.social.youtube.href} target="_blank" rel="noopener" data-magnet>
           <span className="btn-icon" aria-hidden="true" />
+          Subscribe on YouTube
+        </a>
+        <a className="btn btn-ghost" href={site.social.instagram.href} target="_blank" rel="noopener">
           Follow {site.social.instagram.handle}
         </a>
-        {site.social.youtube.href ? (
-          <a className="btn btn-ghost" href={site.social.youtube.href} target="_blank" rel="noopener">
-            Subscribe on YouTube
-          </a>
-        ) : null}
       </div>
     </section>
   );

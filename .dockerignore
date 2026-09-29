@@ -1,0 +1,16 @@
+# keep the build context small and secrets out of the image
+node_modules
+.next
+.next.nosync
+*.nosync
+.data
+client-assets
+.git
+.vercel
+.env*
+!.env.example
+*.tsbuildinfo
+.DS_Store
+**/.DS_Store
+Dockerfile
+.dockerignore

@@ -94,10 +94,10 @@ const lastThing = (investmentLabel: string): Step => ({
 export const COACHING_STEPS: Step[] = [
   {
     id: "pathway",
-    nav: "Pathway",
-    title: "Which kind of coaching do you want?",
-    intro: "Not sure is a fine answer. Shihy will recommend a pathway after reading your application.",
-    fields: [{ kind: "choice", name: "pathway", label: "Pathway", options: PATHWAYS, layout: "cards" }],
+    nav: "Coaching",
+    title: "Which coaching do you want?",
+    intro: "Not sure is a fine answer. Shihy will recommend one after reading your application. Pro is by application and invitation only.",
+    fields: [{ kind: "choice", name: "pathway", label: "Coaching", options: PATHWAYS, layout: "cards" }],
   },
   {
     id: "you",

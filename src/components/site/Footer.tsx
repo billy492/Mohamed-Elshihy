@@ -30,8 +30,7 @@ export default function Footer() {
         <div className="ftr-col">
           <h2 className="ftr-h">Work with me</h2>
           <Link href="/apply">Apply for coaching</Link>
-          <Link href="/apply?track=mentorship">Apply for mentorship</Link>
-          <Link href="/programs">Training programs</Link>
+          <Link href="/coaching">Coaching programs</Link>
         </div>
         <div className="ftr-col">
           <h2 className="ftr-h">Explore</h2>
@@ -47,11 +46,11 @@ export default function Footer() {
             Instagram {site.social.instagram.handle}
           </a>
           <a href={youtube} rel="noopener" target="_blank">
-            YouTube
+            YouTube {site.social.youtube.handle}
           </a>
         </div>
         <div className="ftr-col ftr-note">
-          <p>Every application is read by Shihy himself. If it&apos;s a fit, you hear back directly on WhatsApp or email.</p>
+          <p>Every client begins with a comprehensive consultation. Apply, or DM {site.social.instagram.handle} to book yours.</p>
         </div>
       </div>
 

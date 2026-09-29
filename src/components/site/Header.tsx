@@ -103,8 +103,8 @@ export default function Header() {
             <span className="btn-icon" aria-hidden="true" />
             Apply for coaching
           </Link>
-          <Link href="/apply?track=mentorship" className="btn btn-ghost">
-            Apply for mentorship
+          <Link href="/coaching" className="btn btn-ghost">
+            Coaching programs
           </Link>
         </div>
       </div>
