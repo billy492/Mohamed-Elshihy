@@ -1,4 +1,4 @@
-# Shihy — performance coaching site
+# Mohamed EL Shihy — performance coaching site
 
 The website for Mohamed El Shihy (physical coach, Al Ahly SC): the public site, a
 multi-step application, and a private review desk where Shihy filters applications.
