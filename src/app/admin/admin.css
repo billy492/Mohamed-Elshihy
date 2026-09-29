@@ -1,0 +1,1512 @@
+/* ==========================================================================
+   THE DESK — Shihy's private review area
+   Every rule is scoped under .desk (the admin layout's wrapper) and every
+   class is prefixed dk-: Next keeps route CSS loaded after client navigation,
+   so nothing in here may reach the public site.
+   Mobile first — most triage happens on a phone.
+   Red is the only accent: New (needs attention), alerts, destructive actions.
+   ========================================================================== */
+
+.desk {
+  --dk-bg: #070707;
+  --dk-fg: #f4f4f1;
+  --dk-mute: #8a8a86;
+  --dk-line: rgba(244, 244, 241, 0.14);
+  --dk-line-2: rgba(244, 244, 241, 0.3);
+  --dk-panel: rgba(244, 244, 241, 0.04);
+  --dk-panel-2: rgba(244, 244, 241, 0.09);
+  --dk-red: #e4061a;
+  --dk-red-wash: rgba(228, 6, 26, 0.16);
+
+  --dk-display: var(--font-display, "Arial Narrow"), "Arial Narrow", Arial, sans-serif;
+  --dk-plain: var(--font-plain, Arial), system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  /* Arabic answers read best in a regular-weight Naskh; the name uses Kufi. */
+  --dk-arabic: "Geeza Pro", "Noto Naskh Arabic", "Segoe UI", Tahoma, var(--font-arabic, sans-serif), sans-serif;
+  --dk-arabic-display: var(--font-arabic, "Geeza Pro"), "Geeza Pro", Tahoma, sans-serif;
+
+  --dk-pad: clamp(16px, 4vw, 48px);
+
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--dk-bg);
+  color: var(--dk-fg);
+  font: 400 16px/1.5 var(--dk-plain);
+  color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Base ---------------------------------------------------------------------- */
+
+.desk *,
+.desk *::before,
+.desk *::after {
+  box-sizing: border-box;
+}
+.desk ::selection {
+  background: var(--dk-red);
+  color: #fff;
+}
+.desk :where(h1, h2, h3, p, ol, ul, dl, dd, figure) {
+  margin: 0;
+}
+.desk :where(ol, ul) {
+  padding: 0;
+  list-style: none;
+}
+.desk a {
+  color: inherit;
+  text-decoration: none;
+}
+.desk :where(button, input, select, textarea) {
+  margin: 0;
+  border-radius: 0;
+  font: inherit;
+  color: inherit;
+}
+.desk button {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.desk :focus-visible {
+  outline: 2px solid var(--dk-fg);
+  outline-offset: 2px;
+  border-radius: 0;
+}
+/* Inside framed groups a ring outside the box gets lost: draw it inside, dark
+   then light, so it shows on both the black and the white (active) states. */
+.desk :is(.dk-seg a, .dk-tab, .dk-status-btn, .dk-mbar-btn, .dk-chip, .dk-pager-link):focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 0;
+  box-shadow:
+    inset 0 0 0 2px var(--dk-bg),
+    inset 0 0 0 4px var(--dk-fg);
+}
+.desk code {
+  padding: 1px 5px;
+  background: var(--dk-panel-2);
+  font: 500 0.9em/1.4 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  overflow-wrap: anywhere;
+}
+.desk strong {
+  font-weight: 600;
+}
+.desk kbd {
+  display: inline-grid;
+  place-items: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  border: 1px solid var(--dk-line-2);
+  border-bottom-width: 2px;
+  font: 800 12px/1 var(--dk-display);
+  color: var(--dk-fg);
+}
+.desk .dk-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.desk .dk-link {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+.desk .dk-link:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* Buttons ------------------------------------------------------------------- */
+
+.desk .dk-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 2px solid var(--dk-fg);
+  background: transparent;
+  color: var(--dk-fg);
+  font: 800 15px/1 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+}
+.desk .dk-btn:hover {
+  background: var(--dk-fg);
+  color: var(--dk-bg);
+}
+.desk .dk-btn:active {
+  border-color: var(--dk-mute);
+  background: var(--dk-mute);
+  color: var(--dk-bg);
+}
+.desk .dk-btn-solid {
+  background: var(--dk-fg);
+  color: var(--dk-bg);
+}
+.desk .dk-btn-solid:hover {
+  border-color: #fff;
+  background: #fff;
+}
+.desk .dk-btn-lg {
+  min-height: 58px;
+  padding: 0 24px;
+  font-size: 18px;
+}
+.desk .dk-btn:disabled {
+  opacity: 0.5;
+  cursor: progress;
+}
+
+/* Alerts -------------------------------------------------------------------- */
+
+.desk .dk-alert {
+  padding: 12px 14px;
+  background: var(--dk-red-wash);
+  box-shadow: inset 4px 0 0 var(--dk-red);
+  font: 500 15px/1.45 var(--dk-plain);
+  color: var(--dk-fg);
+}
+.desk .dk-toast {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  left: 12px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 8px 8px 8px 16px;
+  background: var(--dk-red);
+  color: #fff;
+  font: 500 15px/1.4 var(--dk-plain);
+}
+.desk .dk-toast-close {
+  flex: none;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  font: 800 13px/1 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.desk .dk-toast-close:focus-visible {
+  outline-color: #fff;
+}
+
+/* Nav ----------------------------------------------------------------------- */
+
+.desk .dk-nav {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "brand out"
+    "tabs tabs";
+  border-bottom: 2px solid var(--dk-fg);
+}
+.desk .dk-brand {
+  grid-area: brand;
+  display: flex;
+  align-items: center;
+  gap: 0.18em;
+  min-height: 52px;
+  padding: 0 var(--dk-pad);
+  font: 900 21px/1 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.desk .dk-brand span {
+  color: var(--dk-mute);
+}
+.desk .dk-tabs {
+  grid-area: tabs;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  border-top: 1px solid var(--dk-line);
+}
+.desk .dk-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 10px;
+  font: 800 14px/1 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  color: var(--dk-mute);
+  box-shadow: inset 0 -3px 0 transparent;
+  transition:
+    color 0.15s,
+    box-shadow 0.15s;
+}
+.desk .dk-tab:hover {
+  color: var(--dk-fg);
+}
+.desk .dk-tab[aria-current] {
+  color: var(--dk-fg);
+  box-shadow: inset 0 -3px 0 var(--dk-fg);
+}
+.desk .dk-tabs > .dk-tab + .dk-tab {
+  border-left: 1px solid var(--dk-line);
+}
+.desk .dk-out {
+  grid-area: out;
+  display: flex;
+}
+.desk .dk-out .dk-tab {
+  padding: 0 var(--dk-pad);
+}
+.desk .dk-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  background: var(--dk-red);
+  color: #fff;
+  font: 800 13px/1 var(--dk-display);
+  letter-spacing: 0.02em;
+}
+
+/* Page and header ----------------------------------------------------------- */
+
+.desk .dk-page {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 var(--dk-pad) 72px;
+}
+.desk .dk-head {
+  display: grid;
+  gap: 18px;
+  padding: 28px 0 22px;
+}
+.desk .dk-head-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+.desk .dk-title {
+  font: 900 clamp(54px, 15vw, 140px)/0.82 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+.desk .dk-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 18px;
+  min-height: 44px;
+  font: 700 13px/1.3 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--dk-mute);
+}
+.desk .dk-summary .dk-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--dk-fg);
+}
+
+/* Status count pills: one scrollable strip on a phone, wrapped above. */
+.desk .dk-chips {
+  display: flex;
+  gap: 6px;
+  margin: 0 calc(-1 * var(--dk-pad));
+  padding: 0 var(--dk-pad);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+.desk .dk-chips::-webkit-scrollbar {
+  display: none;
+}
+.desk .dk-chip {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--dk-line-2);
+  font: 800 14px/1 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  color: var(--dk-mute);
+}
+.desk .dk-chip:hover {
+  border-color: var(--dk-fg);
+  color: var(--dk-fg);
+}
+.desk .dk-chip-n {
+  color: var(--dk-fg);
+  font-variant-numeric: tabular-nums;
+}
+.desk .dk-chip[aria-current] {
+  border-color: var(--dk-fg);
+  background: var(--dk-fg);
+  color: var(--dk-bg);
+}
+.desk .dk-chip[aria-current] .dk-chip-n {
+  color: var(--dk-bg);
+}
+.desk .dk-chip[data-hot] {
+  border-color: var(--dk-red);
+  color: var(--dk-fg);
+}
+.desk .dk-chip[data-hot] .dk-chip-n {
+  display: inline-grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  margin-right: -4px;
+  padding: 0 5px;
+  background: var(--dk-red);
+  color: #fff;
+}
+.desk .dk-chip[data-hot][aria-current] {
+  border-color: var(--dk-red);
+  background: var(--dk-red);
+  color: #fff;
+}
+.desk .dk-chip[data-hot][aria-current] .dk-chip-n {
+  background: rgba(0, 0, 0, 0.28);
+}
+
+/* Filters ------------------------------------------------------------------- */
+
+.desk .dk-controls {
+  display: grid;
+  gap: 12px;
+}
+.desk .dk-seg {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  border: 2px solid var(--dk-fg);
+}
+.desk .dk-seg a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 10px;
+  font: 800 14px/1 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--dk-mute);
+}
+.desk .dk-seg a + a {
+  border-left: 1px solid var(--dk-line-2);
+}
+.desk .dk-seg a:hover {
+  color: var(--dk-fg);
+}
+.desk .dk-seg a[aria-current] {
+  background: var(--dk-fg);
+  color: var(--dk-bg);
+}
+.desk .dk-filters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: end;
+  gap: 10px;
+}
+.desk .dk-search {
+  display: flex;
+  grid-column: 1 / -1;
+}
+.desk .dk-search input {
+  flex: 1;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid var(--dk-line-2);
+  border-right: 0;
+  background: var(--dk-panel);
+  font: 400 17px/1.2 var(--dk-plain);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.desk .dk-search input::placeholder {
+  color: var(--dk-mute);
+  opacity: 1;
+}
+.desk .dk-search input:focus-visible {
+  outline-offset: -2px;
+}
+.desk .dk-search .dk-btn {
+  min-height: 48px;
+}
+.desk .dk-field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+.desk .dk-field-label {
+  font: 700 12px/1 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--dk-mute);
+}
+.desk .dk-select {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 34px 0 12px;
+  border: 1px solid var(--dk-line-2);
+  background: var(--dk-panel)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0h10L5 6z' fill='%23f4f4f1'/%3E%3C/svg%3E")
+    no-repeat right 12px center / 10px 6px;
+  font: 700 16px/1 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.desk .dk-select:hover {
+  border-color: var(--dk-fg);
+}
+.desk .dk-select:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.desk .dk-select option {
+  background: #151515;
+  color: var(--dk-fg);
+  text-transform: none;
+}
+.desk .dk-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--dk-line-2);
+  font: 800 14px/1 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  color: var(--dk-mute);
+}
+.desk .dk-toggle:hover {
+  border-color: var(--dk-fg);
+  color: var(--dk-fg);
+}
+.desk .dk-toggle[aria-current] {
+  border-color: var(--dk-fg);
+  background: var(--dk-fg);
+  color: var(--dk-bg);
+}
+
+/* Application rows: stacked cards on a phone, a table from 1200px ---------- */
+
+.desk .dk-rows {
+  margin: 0 calc(-1 * var(--dk-pad));
+  border-top: 2px solid var(--dk-fg);
+}
+.desk .dk-rows-head {
+  display: none;
+}
+.desk .dk-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  grid-template-areas:
+    "star who status"
+    ". facts facts"
+    ". prob prob"
+    ". meter when";
+  gap: 8px 10px;
+  padding: 16px var(--dk-pad);
+  border-bottom: 1px solid var(--dk-line);
+  transition: background-color 0.12s;
+}
+.desk .dk-row:hover {
+  background: var(--dk-panel);
+}
+.desk .dk-row:active {
+  background: var(--dk-panel-2);
+}
+.desk .dk-row:focus-visible {
+  outline-offset: -3px;
+}
+.desk .dk-row[data-status="new"] {
+  box-shadow: inset 4px 0 0 var(--dk-red);
+}
+.desk .dk-r-star {
+  grid-area: star;
+  font-size: 17px;
+  line-height: 22px;
+}
+.desk .dk-r-who {
+  grid-area: who;
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+/* Left-aligned even when Arabic (dir="auto" still orders the letters right to
+   left), so the names keep one clean edge down the list. */
+.desk .dk-r-name {
+  font: 600 17px/1.3 var(--dk-plain);
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.desk .dk-r-loc {
+  font: 400 14px/1.35 var(--dk-plain);
+  text-align: left;
+  color: var(--dk-mute);
+  overflow-wrap: anywhere;
+}
+.desk .dk-r-status {
+  grid-area: status;
+  align-self: start;
+  justify-self: end;
+}
+.desk .dk-r-facts {
+  grid-area: facts;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  font: 400 14px/1.35 var(--dk-plain);
+  color: var(--dk-mute);
+}
+.desk .dk-r-prob {
+  grid-area: prob;
+  display: -webkit-box;
+  overflow: hidden;
+  font: 400 15px/1.45 var(--dk-plain);
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+.desk .dk-r-meter {
+  grid-area: meter;
+  display: flex;
+  align-items: center;
+  min-height: 16px;
+}
+.desk .dk-r-when {
+  grid-area: when;
+  align-self: center;
+  justify-self: end;
+  font: 700 13px/1 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  color: var(--dk-mute);
+}
+
+.desk .dk-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 8px;
+  border: 1px solid var(--dk-line-2);
+  font: 800 12px/1 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  color: var(--dk-fg);
+}
+.desk .dk-badge[data-track="mentorship"] {
+  border-color: transparent;
+  background: var(--dk-panel-2);
+}
+
+.desk .dk-meter {
+  display: inline-flex;
+  flex: none;
+  align-items: stretch;
+  gap: 2px;
+  height: 14px;
+}
+.desk .dk-bar {
+  width: 5px;
+  background: var(--dk-line-2);
+}
+.desk .dk-bar-on {
+  background: var(--dk-fg);
+}
+
+/* Status pills: a ladder of weight, never colour (red is only for New). */
+.desk .dk-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0 9px;
+  border: 1px solid var(--dk-line-2);
+  font: 800 12px/1 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  color: var(--dk-fg);
+}
+.desk .dk-pill[data-status="new"] {
+  border-color: var(--dk-red);
+  background: var(--dk-red);
+  color: #fff;
+}
+.desk .dk-pill[data-status="reviewing"] {
+  border-color: var(--dk-fg);
+}
+.desk .dk-pill[data-status="shortlisted"] {
+  border: 2px solid var(--dk-fg);
+}
+.desk .dk-pill[data-status="contacted"] {
+  border-color: transparent;
+  background: var(--dk-panel-2);
+}
+.desk .dk-pill[data-status="accepted"] {
+  border-color: var(--dk-fg);
+  background: var(--dk-fg);
+  color: var(--dk-bg);
+}
+.desk .dk-pill[data-status="declined"],
+.desk .dk-pill[data-status="archived"] {
+  border-color: var(--dk-line);
+  color: var(--dk-mute);
+}
+.desk .dk-pill[data-status="archived"] {
+  border-style: dashed;
+}
+
+/* Empty and setup states ---------------------------------------------------- */
+
+.desk .dk-empty {
+  display: grid;
+  justify-items: start;
+  gap: 14px;
+  padding: 48px 0 24px;
+  border-top: 2px solid var(--dk-fg);
+}
+.desk .dk-empty-title {
+  font: 900 clamp(44px, 11vw, 104px)/0.86 var(--dk-display);
+  text-transform: uppercase;
+}
+.desk .dk-empty p {
+  max-width: 52ch;
+  font: 400 17px/1.55 var(--dk-plain);
+  color: var(--dk-mute);
+}
+.desk .dk-empty p .dk-link {
+  color: var(--dk-fg);
+}
+.desk .dk-steps {
+  display: grid;
+  gap: 10px;
+  max-width: 64ch;
+  padding-left: 1.4em;
+  list-style: decimal;
+  font: 400 16px/1.55 var(--dk-plain);
+}
+.desk .dk-steps li::marker {
+  font-family: var(--dk-display);
+  font-weight: 800;
+  color: var(--dk-mute);
+}
+
+/* Detail -------------------------------------------------------------------- */
+
+.desk .dk-detail {
+  padding-bottom: 0;
+}
+.desk .dk-pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 0 calc(-1 * var(--dk-pad));
+  padding: 0 max(0px, calc(var(--dk-pad) - 10px));
+  border-bottom: 1px solid var(--dk-line);
+}
+.desk .dk-pager-steps {
+  display: flex;
+}
+.desk .dk-pager-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 48px;
+  padding: 0 10px;
+  font: 800 14px/1 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.desk a.dk-pager-link:hover {
+  background: var(--dk-panel-2);
+}
+.desk .dk-pager-link[aria-disabled="true"] {
+  color: var(--dk-mute);
+  opacity: 0.45;
+}
+.desk .dk-pager-pos {
+  font: 700 14px/1 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--dk-mute);
+}
+
+.desk .dk-dhead {
+  display: grid;
+  gap: 14px;
+  padding: 18px 0 22px;
+  border-bottom: 2px solid var(--dk-fg);
+}
+.desk .dk-dhead-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.desk .dk-kicker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  padding-top: 12px;
+  font: 700 13px/1.3 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--dk-mute);
+}
+.desk .dk-ref {
+  color: var(--dk-fg);
+}
+.desk .dk-name {
+  font: 900 clamp(48px, 13.5vw, 156px)/0.84 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: -0.005em;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+.desk .dk-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+.desk .dk-meta-text {
+  font: 500 16px/1.3 var(--dk-plain);
+}
+.desk .dk-meta-ip {
+  font: 700 12px/1.2 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--dk-mute);
+}
+.desk .dk-starbtn {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--dk-line-2);
+  font: 800 14px/1 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.desk .dk-starbtn:hover {
+  border-color: var(--dk-fg);
+}
+.desk .dk-starbtn[aria-pressed="true"] {
+  border-color: var(--dk-fg);
+  background: var(--dk-fg);
+  color: var(--dk-bg);
+}
+.desk .dk-starbtn-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* On a phone the two columns collapse into one reading order: contact, the
+   problem, the answers, then status and notes (the bottom bar covers the
+   quick decisions). The column wrappers get display: contents for that. */
+.desk .dk-dgrid {
+  display: flex;
+  flex-direction: column;
+}
+.desk .dk-dmain,
+.desk .dk-dside {
+  display: contents;
+}
+.desk .dk-o-contact {
+  order: 1;
+}
+.desk .dk-o-problem {
+  order: 2;
+}
+.desk .dk-o-tags {
+  order: 3;
+}
+.desk .dk-o-specs {
+  order: 4;
+}
+.desk .dk-o-writing {
+  order: 5;
+}
+.desk .dk-o-status {
+  order: 6;
+}
+.desk .dk-o-notes {
+  order: 7;
+}
+.desk .dk-keys {
+  display: none;
+  order: 8;
+}
+
+.desk .dk-sec {
+  padding: 22px 0;
+  border-bottom: 1px solid var(--dk-line);
+}
+.desk .dk-h {
+  display: block;
+  margin-bottom: 14px;
+  font: 800 14px/1 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--dk-mute);
+}
+.desk .dk-problem {
+  max-width: 62ch;
+  font: 400 clamp(19px, 2.1vw, 24px)/1.5 var(--dk-plain);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.desk .dk-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.desk .dk-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--dk-fg);
+  font: 700 15px/1 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.desk .dk-specs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 16px;
+}
+.desk .dk-spec {
+  min-width: 0;
+  padding: 12px 0;
+  border-top: 1px solid var(--dk-line);
+}
+.desk .dk-spec dt {
+  margin-bottom: 5px;
+  font: 700 12px/1.2 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--dk-mute);
+}
+.desk .dk-spec dd {
+  font: 400 16px/1.4 var(--dk-plain);
+  overflow-wrap: anywhere;
+}
+.desk .dk-spec[data-empty] dd {
+  color: var(--dk-mute);
+}
+.desk .dk-spec-meter {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.desk .dk-text {
+  max-width: 66ch;
+  font: 400 17px/1.6 var(--dk-plain);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Status control: all seven, three across; Archived takes the last row. */
+.desk .dk-status {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+.desk .dk-status-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 6px;
+  border: 1px solid var(--dk-line-2);
+  font: 800 14px/1 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--dk-mute);
+  transition:
+    background-color 0.12s,
+    border-color 0.12s,
+    color 0.12s;
+}
+.desk .dk-status-btn:last-child {
+  grid-column: 1 / -1;
+}
+.desk .dk-status-btn:hover {
+  border-color: var(--dk-fg);
+  color: var(--dk-fg);
+}
+.desk .dk-status-btn:active {
+  background: var(--dk-panel-2);
+}
+.desk .dk-status-btn[aria-pressed="true"] {
+  border-color: var(--dk-fg);
+  background: var(--dk-fg);
+  color: var(--dk-bg);
+}
+.desk .dk-status-btn[data-status="declined"]:hover {
+  border-color: var(--dk-red);
+}
+.desk .dk-status-btn[data-status="new"][aria-pressed="true"],
+.desk .dk-status-btn[data-status="declined"][aria-pressed="true"] {
+  border-color: var(--dk-red);
+  background: var(--dk-red);
+  color: #fff;
+}
+.desk .dk-hint {
+  display: none;
+}
+
+/* Contact */
+.desk .dk-contact-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.desk .dk-contact-actions .dk-btn {
+  min-height: 48px;
+  padding: 0 8px;
+}
+.desk .dk-contact-lines {
+  margin-top: 10px;
+}
+.desk .dk-contact-lines li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 52px;
+  border-bottom: 1px solid var(--dk-line);
+}
+.desk .dk-contact-lines li:last-child {
+  border-bottom: 0;
+}
+.desk .dk-contact-value {
+  min-width: 0;
+  font: 400 16px/1.3 var(--dk-plain);
+  overflow-wrap: anywhere;
+}
+.desk a.dk-contact-value:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.desk .dk-contact-kind {
+  flex: none;
+  font: 700 12px/1 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--dk-mute);
+}
+.desk .dk-copy {
+  flex: none;
+  min-width: 72px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--dk-line-2);
+  font: 800 13px/1 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.desk .dk-copy:hover {
+  border-color: var(--dk-fg);
+}
+.desk .dk-copy[data-state="done"] {
+  border-color: var(--dk-fg);
+  background: var(--dk-fg);
+  color: var(--dk-bg);
+}
+.desk .dk-copy[data-state="failed"] {
+  border-color: var(--dk-red);
+  background: var(--dk-red);
+  color: #fff;
+}
+
+/* Notes */
+.desk .dk-notes textarea {
+  display: block;
+  width: 100%;
+  min-height: 9.5em;
+  max-height: 70vh;
+  padding: 12px 14px;
+  border: 1px solid var(--dk-line-2);
+  background: var(--dk-panel);
+  font: 400 16px/1.55 var(--dk-plain);
+  resize: vertical;
+  field-sizing: content;
+}
+.desk .dk-notes textarea::placeholder {
+  color: var(--dk-mute);
+  opacity: 1;
+}
+.desk .dk-notes textarea:focus-visible {
+  outline-offset: -2px;
+}
+.desk .dk-save {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  min-height: 32px;
+  margin-top: 8px;
+  font: 700 12px/1.2 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--dk-mute);
+}
+.desk .dk-save[data-state="saved"] {
+  color: var(--dk-fg);
+}
+.desk .dk-save[data-state="error"] {
+  padding: 0 0 0 12px;
+  background: var(--dk-red-wash);
+  box-shadow: inset 3px 0 0 var(--dk-red);
+  color: var(--dk-fg);
+}
+.desk .dk-save-retry {
+  min-height: 44px;
+  padding: 0 12px;
+  border-left: 1px solid var(--dk-line-2);
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+.desk .dk-save-retry:hover {
+  background: var(--dk-panel-2);
+}
+
+/* Keyboard legend (only where there is a keyboard and a pointer). */
+.desk .dk-keylist {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px 12px;
+}
+.desk .dk-keylist div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.desk .dk-keylist dt {
+  display: flex;
+  gap: 3px;
+}
+.desk .dk-keylist dd {
+  font: 700 12px/1 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--dk-mute);
+}
+
+/* Phone action bar: sticks to the bottom of the screen as you read. */
+.desk .dk-mbar {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.15fr;
+  margin: 24px calc(-1 * var(--dk-pad)) 0;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  border-top: 2px solid var(--dk-fg);
+  background: var(--dk-bg);
+}
+.desk .dk-mbar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 60px;
+  padding: 0 8px;
+  font: 900 17px/1 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.desk .dk-mbar-btn + .dk-mbar-btn {
+  border-left: 1px solid var(--dk-line-2);
+}
+.desk .dk-mbar-btn:active {
+  background: var(--dk-panel-2);
+}
+.desk .dk-mbar-btn[aria-pressed="true"]::before {
+  content: "✓";
+}
+.desk .dk-mbar-shortlist[aria-pressed="true"] {
+  background: var(--dk-panel-2);
+  box-shadow: inset 0 3px 0 var(--dk-fg);
+}
+.desk .dk-mbar-decline {
+  box-shadow: inset 0 3px 0 var(--dk-red);
+}
+.desk .dk-mbar-decline[aria-pressed="true"] {
+  background: var(--dk-red);
+  color: #fff;
+}
+.desk .dk-mbar-next {
+  background: var(--dk-fg);
+  color: var(--dk-bg);
+}
+.desk .dk-mbar-next:active {
+  background: var(--dk-mute);
+}
+/* Out of the way while the keyboard is up for notes. */
+.desk:has(.dk-notes textarea:focus) .dk-mbar {
+  display: none;
+}
+
+/* Login --------------------------------------------------------------------- */
+
+.desk .dk-gate {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-items: end;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 32px var(--dk-pad) max(40px, env(safe-area-inset-bottom, 0px));
+  overflow: hidden;
+}
+/* The public site's film grain, very faint. */
+.desk .dk-gate::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: screen;
+  background-size: 180px 180px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.desk .dk-gate-inner {
+  display: grid;
+  gap: 28px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.desk .dk-gate-kicker {
+  font: 700 13px/1.2 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--dk-mute);
+}
+.desk .dk-gate-title {
+  font: 900 clamp(64px, 24vw, 240px)/0.8 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+.desk .dk-gate-form {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+  max-width: 440px;
+  padding-top: 24px;
+  border-top: 2px solid var(--dk-fg);
+}
+.desk .dk-input {
+  width: 100%;
+  min-height: 58px;
+  padding: 0 16px;
+  border: 1px solid var(--dk-line-2);
+  background: var(--dk-panel);
+  font: 400 18px/1.2 var(--dk-plain);
+}
+.desk .dk-input:focus-visible {
+  outline-offset: -2px;
+  border-color: var(--dk-fg);
+}
+.desk .dk-input[aria-invalid="true"] {
+  border-color: var(--dk-red);
+}
+.desk .dk-setup {
+  display: grid;
+  gap: 14px;
+  max-width: 640px;
+  padding-top: 24px;
+  border-top: 2px solid var(--dk-fg);
+  font: 400 16px/1.6 var(--dk-plain);
+}
+.desk .dk-setup > p {
+  color: var(--dk-mute);
+}
+.desk .dk-setup .dk-h {
+  margin: 0;
+  color: var(--dk-fg);
+}
+
+/* Waitlist ------------------------------------------------------------------ */
+
+.desk .dk-wl {
+  display: grid;
+  gap: 32px;
+  padding-top: 8px;
+}
+.desk .dk-wl-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 2px solid var(--dk-fg);
+}
+.desk .dk-wl-name,
+.desk .dk-wl-n {
+  font: 900 clamp(26px, 5vw, 38px)/0.95 var(--dk-display);
+  text-transform: uppercase;
+}
+.desk .dk-wl-n {
+  font-variant-numeric: tabular-nums;
+}
+.desk .dk-wl-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 16px;
+  min-height: 52px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--dk-line);
+}
+.desk .dk-wl-email {
+  min-width: 0;
+  font: 400 16px/1.35 var(--dk-plain);
+  overflow-wrap: anywhere;
+}
+.desk .dk-wl-email:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.desk .dk-wl-when {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font: 700 12px/1.2 var(--dk-display);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  color: var(--dk-mute);
+}
+.desk .dk-wl-times {
+  color: var(--dk-fg);
+}
+.desk .dk-wl-foot {
+  padding-top: 12px;
+}
+.desk .dk-wl-none {
+  padding: 14px 0;
+  font: 400 15px/1.4 var(--dk-plain);
+  color: var(--dk-mute);
+}
+
+/* Wider screens ------------------------------------------------------------- */
+
+@media (min-width: 760px) {
+  .desk .dk-nav {
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: "brand tabs out";
+  }
+  .desk .dk-brand {
+    min-height: 60px;
+  }
+  .desk .dk-tabs {
+    grid-template-columns: repeat(3, auto);
+    justify-content: start;
+    border-top: 0;
+    border-left: 1px solid var(--dk-line);
+  }
+  .desk .dk-tabs > .dk-tab + .dk-tab {
+    border-left: 0;
+  }
+  .desk .dk-tab {
+    min-height: 60px;
+    padding: 0 18px;
+  }
+  .desk .dk-chips {
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+  .desk .dk-filters {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .desk .dk-wl {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px 48px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .desk .dk-controls {
+    grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+    align-items: end;
+    gap: 16px;
+  }
+  .desk .dk-filters {
+    grid-template-columns: minmax(220px, 2fr) repeat(3, minmax(120px, 1fr)) auto;
+  }
+  .desk .dk-search {
+    grid-column: auto;
+  }
+
+  .desk .dk-detail {
+    padding-bottom: 72px;
+  }
+  .desk .dk-dgrid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(340px, 400px);
+    align-items: start;
+    column-gap: 56px;
+  }
+  .desk .dk-dmain,
+  .desk .dk-dside {
+    display: block;
+  }
+  .desk .dk-dside .dk-sec:last-child {
+    border-bottom: 0;
+  }
+  .desk .dk-specs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .desk .dk-mbar {
+    display: none;
+  }
+}
+
+@media (min-width: 1200px) {
+  .desk .dk-rows-head,
+  .desk .dk-row {
+    grid-template-columns:
+      20px minmax(150px, 1.3fr) 96px 112px minmax(130px, 1fr) minmax(200px, 2.6fr)
+      84px 80px 116px;
+    grid-template-areas: "star who age badge what prob meter when status";
+    align-items: center;
+    column-gap: 14px;
+  }
+  .desk .dk-rows-head {
+    display: grid;
+    margin: 0 calc(-1 * var(--dk-pad));
+    padding: 0 var(--dk-pad) 10px;
+    font: 700 12px/1 var(--dk-display);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--dk-mute);
+  }
+  .desk .dk-row {
+    row-gap: 0;
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+  .desk .dk-r-facts {
+    display: contents;
+  }
+  .desk .dk-r-age {
+    grid-area: age;
+  }
+  .desk .dk-r-badge {
+    grid-area: badge;
+  }
+  .desk .dk-r-what {
+    grid-area: what;
+  }
+  .desk .dk-r-status,
+  .desk .dk-r-when {
+    align-self: center;
+    justify-self: start;
+  }
+}
+
+/* A keyboard and a pointer: show the shortcuts. */
+@media (hover: hover) and (pointer: fine) {
+  .desk .dk-keys {
+    display: block;
+  }
+  .desk .dk-hint {
+    position: absolute;
+    top: 4px;
+    right: 5px;
+    display: block;
+    min-width: 0;
+    height: auto;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: 700 10px/1 var(--dk-display);
+    color: inherit;
+    opacity: 0.6;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .desk *,
+  .desk *::before,
+  .desk *::after {
+    transition: none !important;
+  }
+}
+
+/* Arabic, wherever the applicant wrote it (set by textProps): an Arabic face,
+   and no caps or letter-spacing, which would break the joined script. Last in
+   the file so it wins over the component fonts above. */
+.desk [lang="ar"] {
+  font-family: var(--dk-arabic);
+  letter-spacing: 0;
+  text-transform: none;
+}
+.desk .dk-name[lang="ar"] {
+  font-family: var(--dk-arabic-display);
+  line-height: 1.2;
+}

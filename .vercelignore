@@ -1,0 +1,8 @@
+# never upload these to the deploy
+node_modules
+.next.nosync
+.data
+.DS_Store
+**/.DS_Store
+*.nosync
+client-assets
