@@ -43,8 +43,8 @@ function Setup() {
         </li>
       </ol>
       <p>
-        On your computer, put both in <code>.env.local</code> and restart the dev server. On Vercel, add them under
-        Project → Settings → Environment Variables, then redeploy. Changing either one later signs everyone out.
+        On your computer, put both in <code>.env.local</code> and restart the dev server. On Cloudflare, add them as
+        secrets under Workers &amp; Pages → shihy-coaching → Settings → Variables and Secrets. Changing either one later signs everyone out.
       </p>
     </section>
   );

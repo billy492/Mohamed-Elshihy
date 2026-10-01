@@ -18,7 +18,10 @@ npm run dev                  # http://localhost:3000
   running (same build folder). To measure a production build next to a dev server:
   `NEXT_DIST_DIR=.next.prod.nosync npx next build && NEXT_DIST_DIR=.next.prod.nosync npx next start -p 3200`.
 - The folder lives on the iCloud-synced Desktop, so local builds go to `*.nosync`
-  folders (iCloud ignores them). Vercel builds to `.next` as normal.
+  folders (iCloud ignores them). The Cloudflare scripts build to `.next` as normal.
+- `npm run preview` builds for Cloudflare and runs the site in the real Workers
+  runtime at http://localhost:8787. Put secrets for it in `.dev.vars` (same format as
+  `.env.local`, never committed).
 - `node scripts/seed-dev.mjs` adds 10 clearly-marked "(test)" applications and 6
   waitlist sign-ups to the local store. It refuses to run in production.
 
@@ -34,7 +37,8 @@ npm run dev                  # http://localhost:3000
 | `src/app/(focus)/apply` | The application: `components/apply/steps.ts` defines the questions; `lib/apply/schema.ts` validates them (same schema in the browser and on the server). |
 | `src/app/admin` | The review desk (below). |
 | `src/lib/store` | Where applications live: Upstash Redis in production, `.data/store.json` in development. |
-| `src/proxy.ts`, `src/lib/session.ts`, `src/lib/auth.ts` | Desk sign-in: signed, http-only session cookie; every desk page and action re-checks it. |
+| `src/lib/session.ts`, `src/lib/auth.ts` | Desk sign-in: signed, http-only session cookie; every desk page, action and route checks it (`requireAdmin`). |
+| `wrangler.jsonc`, `open-next.config.ts`, `public/_headers` | Cloudflare hosting (below). |
 
 ## The review desk
 
@@ -52,27 +56,58 @@ password or `ADMIN_SESSION_SECRET` signs everyone out.
   C contacted · A accepted · D declined · X archived · F star.
 - **Waitlist:** program sign-ups with counts and CSV export.
 
+## Hosting: Cloudflare Workers
+
+The site runs as a Cloudflare Worker through the OpenNext adapter
+(`@opennextjs/cloudflare`). It can't go on Cloudflare Pages as static files: the
+application form, the review desk and sign-in run on the server.
+
+**First-time setup (Cloudflare dashboard):**
+
+1. **Workers & Pages → Create → Import a repository** → pick this GitHub repo.
+   - Production branch: `main`
+   - Build command: *leave empty* (the deploy script builds)
+   - Deploy command: `npm run deploy` (replace the suggested `npx wrangler deploy`)
+   - Build variable: `NODE_VERSION` = `22`.
+   The Worker name must be `shihy-coaching` (it has to match `name` in `wrangler.jsonc`).
+2. **Storage:** create a free Redis database at console.upstash.com (pick a region
+   near Egypt, e.g. Frankfurt) and copy its REST URL and token.
+3. **Worker → Settings → Variables and Secrets** (type *Secret*):
+   `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`, `UPSTASH_REDIS_REST_URL`,
+   `UPSTASH_REDIS_REST_TOKEN`, and optionally `RESEND_API_KEY`, `NOTIFY_EMAIL`,
+   `NOTIFY_FROM`. Without Redis the apply form reports that it couldn't save (rather
+   than losing applications) and the desk can't sign in.
+4. **`NEXT_PUBLIC_SITE_URL`** is baked in at build time, so set it as a **build
+   variable** (Settings → Build → Variables), e.g. `https://yourdomain.com`.
+5. **Images:** Images → turn on Cloudflare Images transformations (free tier:
+   5,000 unique transformations a month). `/_next/image` uses it to resize photos.
+6. **Domain:** Worker → Settings → Domains & Routes → **Add → Custom domain** →
+   `yourdomain.com`, then again for `www.yourdomain.com`. Cloudflare creates the DNS
+   records and certificate. Delete any old A/CNAME records for those names first
+   (e.g. ones pointing at GitHub Pages or Vercel).
+
+After that, every push to `main` deploys. From a computer instead:
+`npx wrangler login`, then `npm run deploy`.
+
+Size: the Worker is ~2.4 MB gzipped, under the free plan's 3 MB limit. That's why
+there is no `proxy.ts` (a Node proxy bundles a second copy of the Next server).
+
 ## Before launch
 
-1. **Storage:** add the Upstash Redis integration in Vercel (it sets `KV_REST_API_URL`
-   and `KV_REST_API_TOKEN`). Without it, the apply form on Vercel reports that it
-   couldn't save rather than losing applications.
-2. **Env vars on Vercel:** `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`,
-   `NEXT_PUBLIC_SITE_URL`; optionally `RESEND_API_KEY` + `NOTIFY_EMAIL` (+ `NOTIFY_FROM`)
-   for an email per new application.
-3. **Replace the placeholder media** in `src/content/media.ts` (free-licence Mixkit
+1. **Hosting:** the Cloudflare steps above (storage, secrets, domain).
+2. **Replace the placeholder media** in `src/content/media.ts` (free-licence Mixkit
    films and Unsplash photos, hotlinked for the prototype) with Shihy's own footage.
    Run films through the FARGO pipeline (`studio-site/scripts/transcode.sh`: H.264
    1080p, faststart, poster) into `public/assets/`, and give every replaced file a new
    name (the `/assets` cache is immutable for a year).
-4. **Confirm the content** marked `CONFIRM` in `src/content/`: his exact title, the
+3. **Confirm the content** marked `CONFIRM` in `src/content/`: his exact title, the
    pathway details, the program line-up, the principles on the About page, the
    YouTube channel URL, and the Red Bull / Sportsmith entries.
-5. **Add real proof:** `caseStudies` and `testimonials` in `src/content/coaching.ts`
+4. **Add real proof:** `caseStudies` and `testimonials` in `src/content/coaching.ts`
    are empty on purpose, and their section stays hidden until they have real entries.
-6. **Privacy:** have the privacy page reviewed (Egypt's PDPL 151/2020; GDPR for EU
+5. **Privacy:** have the privacy page reviewed (Egypt's PDPL 151/2020; GDPR for EU
    applicants). Applications include health information.
-7. **Deploy by push** (FARGO rule): private GitHub repo → Vercel Git integration.
+6. **Deploy by push:** private GitHub repo → Cloudflare Workers Builds.
 
 ## Verified (production build, headless Chrome, phone = 375×812 @2x)
 

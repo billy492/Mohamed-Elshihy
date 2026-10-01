@@ -14,7 +14,7 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-if (process.env.NODE_ENV === "production" || process.env.VERCEL) {
+if (process.env.NODE_ENV === "production" || process.env.VERCEL || process.env.DEPLOY_TARGET) {
   console.error("seed-dev: refusing to run with NODE_ENV=production or on Vercel. This script is for local development only.");
   process.exit(1);
 }

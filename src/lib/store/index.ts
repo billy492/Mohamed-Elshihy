@@ -31,7 +31,7 @@ export interface Store {
 export class StoreNotConfigured extends Error {
   constructor() {
     super(
-      "No application store is configured. Add the Upstash Redis integration (KV_REST_API_URL and KV_REST_API_TOKEN) in Vercel.",
+      "No application store is configured. Set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN (or KV_REST_API_URL / KV_REST_API_TOKEN) as secrets on the host.",
     );
   }
 }
@@ -211,7 +211,9 @@ export function getStore(): Store {
   const url = process.env.KV_REST_API_URL ?? process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.KV_REST_API_TOKEN ?? process.env.UPSTASH_REDIS_REST_TOKEN;
   if (url && token) cached = upstash(url, token);
-  else if (process.env.VERCEL) throw new StoreNotConfigured();
+  // Hosted (Vercel, or Cloudflare via DEPLOY_TARGET in wrangler.jsonc): never fall
+  // back to the file store, which has no persistent disk there.
+  else if (process.env.VERCEL || process.env.DEPLOY_TARGET) throw new StoreNotConfigured();
   else cached = fileStore();
   return cached;
 }

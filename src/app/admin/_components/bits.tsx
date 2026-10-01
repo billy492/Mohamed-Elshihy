@@ -61,7 +61,7 @@ export function Linkify({ text }: { text: string }) {
   );
 }
 
-/** Shown instead of the desk when no application store is configured (Vercel without Upstash). */
+/** Shown instead of the desk when no application store is configured (hosted without Upstash). */
 export function StoreMissing() {
   return (
     <main id="main" className="dk-page">
@@ -75,12 +75,13 @@ export function StoreMissing() {
         </p>
         <ol className="dk-steps">
           <li>
-            In Vercel, open this project, go to <strong>Storage</strong> and add <strong>Upstash for Redis</strong> from
-            the Marketplace. Connect it to this project for Production (and Preview if you use it).
+            Create a free Redis database at <strong>console.upstash.com</strong> and copy its REST URL and token.
           </li>
           <li>
-            That adds <code>KV_REST_API_URL</code> and <code>KV_REST_API_TOKEN</code> to the environment. (
-            <code>UPSTASH_REDIS_REST_URL</code> and <code>UPSTASH_REDIS_REST_TOKEN</code> work too.)
+            In Cloudflare, open <strong>Workers &amp; Pages → shihy-coaching → Settings → Variables and Secrets</strong>{" "}
+            and add them as secrets named <code>UPSTASH_REDIS_REST_URL</code> and{" "}
+            <code>UPSTASH_REDIS_REST_TOKEN</code>. (<code>KV_REST_API_URL</code> / <code>KV_REST_API_TOKEN</code>{" "}
+            work too.)
           </li>
           <li>Redeploy, then reload this page.</li>
         </ol>

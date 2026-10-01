@@ -114,7 +114,7 @@ function writing(a: Application): { label: string; text: string }[] {
 }
 
 export default async function ApplicationPage({ params, searchParams }: Props) {
-  await requireAdmin();
+  await requireAdmin(`/admin/${(await params).id}`);
   if (!storeReady()) {
     return (
       <>

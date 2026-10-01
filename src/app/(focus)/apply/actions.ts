@@ -32,7 +32,10 @@ export async function submitApplication(
       return { ok: false, message: "Too many applications from this connection. Try again in an hour." };
     }
     const now = new Date().toISOString();
-    const country = (await headers()).get("x-vercel-ip-country") ?? undefined;
+    const h = await headers();
+    // Cloudflare sends cf-ipcountry ("XX" = unknown, "T1" = Tor); Vercel sends x-vercel-ip-country.
+    const cc = h.get("cf-ipcountry") ?? h.get("x-vercel-ip-country");
+    const country = cc && cc !== "XX" && cc !== "T1" ? cc : undefined;
     const application: Application = {
       ...parsed.data,
       id: newId(),

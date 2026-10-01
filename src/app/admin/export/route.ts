@@ -23,7 +23,7 @@ function csv(body: string, filename: string): Response {
 export async function GET(request: NextRequest) {
   await requireAdmin();
   if (!storeReady()) {
-    return new Response("No application store is configured. Connect Upstash Redis to this project in Vercel.", {
+    return new Response("No application store is configured. Add the Upstash Redis secrets (UPSTASH_REDIS_REST_URL, UPSTASH_REDIS_REST_TOKEN) to the Worker.", {
       status: 503,
       headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "no-store" },
     });

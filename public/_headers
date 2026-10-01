@@ -1,0 +1,4 @@
+# Cloudflare static asset headers (same rule as vercel.json): replaced media
+# gets a NEW filename, never the same path, so /assets is cached for a year.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
