@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { overLimit, requireAdmin } from "@/lib/auth";
 import { SESSION_COOKIE, SESSION_DAYS, deskConfigured, passwordMatches, signSession } from "@/lib/session";
 import { getStore } from "@/lib/store";
+import { sendTestAlert, type SendResult } from "@/lib/notify";
 import { STATUSES, ids } from "@/lib/apply/options";
 import type { Status } from "@/lib/apply/schema";
 
@@ -65,3 +66,19 @@ export async function saveNotes(id: string, notes: string): Promise<{ savedAt: s
   revalidatePath("/admin", "layout");
   return { savedAt: new Date().toISOString() };
 }
+
+export type AlertTestState = { result?: SendResult; at?: string };
+
+/** Alerts page: send one test email and report exactly what Resend said. */
+export async function testAlert(): Promise<AlertTestState> {
+  await requireAdmin();
+  try {
+    if (await overLimit("alert-test", 5, 600)) {
+      return { result: { ok: false, status: 429, reason: "Five tests in ten minutes is the limit. Wait a few minutes." } };
+    }
+  } catch {
+    // no store to count in: send anyway (the desk is already behind the login)
+  }
+  return { result: await sendTestAlert(), at: new Date().toISOString() };
+}
+

@@ -75,7 +75,8 @@ application form, the review desk and sign-in run on the server.
 3. **Worker → Settings → Variables and Secrets** (type *Secret*):
    `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`, `UPSTASH_REDIS_REST_URL`,
    `UPSTASH_REDIS_REST_TOKEN`, and optionally `RESEND_API_KEY`, `NOTIFY_EMAIL`,
-   `NOTIFY_FROM`. Without Redis the apply form reports that it couldn't save (rather
+   `NOTIFY_FROM` (`NOTIFY_EMAIL` takes several addresses, comma-separated; the desk's
+   **Alerts** tab sends a test email and shows Resend's exact answer). Without Redis the apply form reports that it couldn't save (rather
    than losing applications) and the desk can't sign in.
 4. **`NEXT_PUBLIC_SITE_URL`** is baked in at build time, so set it as a **build
    variable** (Settings → Build → Variables): `https://shihysc.com` (also the fallback

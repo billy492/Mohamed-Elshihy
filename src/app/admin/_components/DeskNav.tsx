@@ -3,7 +3,7 @@ import { logout } from "../actions";
 import { storeReady } from "@/lib/store";
 import { loadApplications } from "./data";
 
-type Section = "applications" | "waitlist";
+type Section = "applications" | "waitlist" | "alerts";
 
 /** The desk's own header: brand, sections (with the New count), the public site and log out. */
 export default async function DeskNav({ section, exact = true }: { section?: Section; exact?: boolean }) {
@@ -34,6 +34,9 @@ export default async function DeskNav({ section, exact = true }: { section?: Sec
         </Link>
         <Link href="/admin/waitlist" className="dk-tab" aria-current={current("waitlist")}>
           Waitlist
+        </Link>
+        <Link href="/admin/alerts" className="dk-tab" aria-current={current("alerts")}>
+          Alerts
         </Link>
         <Link href="/" className="dk-tab">
           View site
