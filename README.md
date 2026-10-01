@@ -78,11 +78,13 @@ application form, the review desk and sign-in run on the server.
    `NOTIFY_FROM`. Without Redis the apply form reports that it couldn't save (rather
    than losing applications) and the desk can't sign in.
 4. **`NEXT_PUBLIC_SITE_URL`** is baked in at build time, so set it as a **build
-   variable** (Settings → Build → Variables), e.g. `https://yourdomain.com`.
+   variable** (Settings → Build → Variables): `https://shihysc.com` (also the fallback
+   in `src/content/site.ts`).
 5. **Images:** Images → turn on Cloudflare Images transformations (free tier:
    5,000 unique transformations a month). `/_next/image` uses it to resize photos.
 6. **Domain:** Worker → Settings → Domains & Routes → **Add → Custom domain** →
-   `yourdomain.com`, then again for `www.yourdomain.com`. Cloudflare creates the DNS
+   `shihysc.com`, then again for `www.shihysc.com` (which redirects to `shihysc.com`,
+   see `next.config.ts`). Cloudflare creates the DNS
    records and certificate. Delete any old A/CNAME records for those names first
    (e.g. ones pointing at GitHub Pages or Vercel).
 

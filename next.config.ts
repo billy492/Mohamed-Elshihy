@@ -29,7 +29,17 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
   },
   async redirects() {
-    return [{ source: "/programs", destination: "/coaching", permanent: true }];
+    return [
+      { source: "/programs", destination: "/coaching", permanent: true },
+      // One canonical address: www.shihysc.com → shihysc.com. Two rules because
+      // "/:path*" leaves a literal ":path*" for the bare "/" on Cloudflare.
+      ...["/", "/:path+"].map((source) => ({
+        source,
+        has: [{ type: "host" as const, value: "www.shihysc.com" }],
+        destination: `https://shihysc.com${source}`,
+        permanent: true,
+      })),
+    ];
   },
   async headers() {
     return [

@@ -15,7 +15,7 @@ export const site = {
   roleShort: "Performance coach, six years at Al Ahly SC",
   alAhly: { years: 6, titles: "18+" },
   base: "Cairo, Egypt",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://shihy.coaching",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://shihysc.com",
   description:
     "Mohamed El Shihy: performance coach, six years and 18+ titles with Al Ahly SC. Online and hybrid coaching: Online, Premium and Pro. Find the problem. Fix the problem.",
   social: {
