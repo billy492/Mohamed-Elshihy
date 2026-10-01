@@ -17,5 +17,9 @@
   // Tells the app it is hosted, so it refuses to fall back to the local file
   // store (src/lib/store) when the Upstash Redis secrets are missing.
   "vars": { "DEPLOY_TARGET": "cloudflare" },
+  // Keep variables added in the dashboard (Settings → Variables and Secrets).
+  // Without this, every deploy replaces them with only the vars listed above,
+  // which silently removes plain-text ones like ADMIN_PASSWORD.
+  "keep_vars": true,
   "observability": { "enabled": true }
 }
