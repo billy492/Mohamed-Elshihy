@@ -17,6 +17,8 @@ const nextConfig: NextConfig = {
   // files Next writes into .next seconds after a build ("Ready" then ENOENT).
   // iCloud ignores any path ending in ".nosync", so the local build goes there.
   // Vercel's builder only looks for `.next`, so the workaround stays local-only.
+  // The Cloudflare scripts (npm run deploy / preview) set NEXT_DIST_DIR=.next
+  // because the OpenNext adapter also reads `.next`.
   // NEXT_DIST_DIR lets a production build be measured next to a running dev server.
   distDir: process.env.VERCEL ? ".next" : (process.env.NEXT_DIST_DIR ?? ".next.nosync"),
   // The Docker image ships only the traced server bundle (see Dockerfile).
@@ -27,7 +29,17 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
   },
   async redirects() {
-    return [{ source: "/programs", destination: "/coaching", permanent: true }];
+    return [
+      { source: "/programs", destination: "/coaching", permanent: true },
+      // One canonical address: www.shihysc.com → shihysc.com. Two rules because
+      // "/:path*" leaves a literal ":path*" for the bare "/" on Cloudflare.
+      ...["/", "/:path+"].map((source) => ({
+        source,
+        has: [{ type: "host" as const, value: "www.shihysc.com" }],
+        destination: `https://shihysc.com${source}`,
+        permanent: true,
+      })),
+    ];
   },
   async headers() {
     return [
@@ -40,3 +52,6 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
+// Gives `next dev` the Cloudflare bindings from wrangler.jsonc (Images, vars).
+import("@opennextjs/cloudflare").then((m) => m.initOpenNextCloudflareForDev());

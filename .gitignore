@@ -52,3 +52,8 @@ next-env.d.ts
 
 # client originals (processed copies live in public/assets)
 /client-assets/
+
+# cloudflare (OpenNext build output, local wrangler state)
+/.open-next/
+/.wrangler/
+.dev.vars*

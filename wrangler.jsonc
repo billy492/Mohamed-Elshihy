@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // The site runs as a Cloudflare Worker via the OpenNext adapter
+  // (@opennextjs/cloudflare). `npm run deploy` builds and uploads it.
+  "name": "shihy-coaching",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  // Lets the Worker call itself (needed by the OpenNext cache layer).
+  "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "shihy-coaching" }],
+  // Resizes /_next/image requests (see src/lib/img.ts) with Cloudflare Images.
+  "images": { "binding": "IMAGES" },
+  // Tells the app it is hosted, so it refuses to fall back to the local file
+  // store (src/lib/store) when the Upstash Redis secrets are missing.
+  "vars": { "DEPLOY_TARGET": "cloudflare" },
+  "observability": { "enabled": true }
+}

@@ -1,7 +1,7 @@
 import { createHash, createHmac, timingSafeEqual } from "node:crypto";
 
 // Signed session tokens for the review desk. Deliberately free of Next imports
-// so proxy.ts can use it too (Proxy runs on the Node runtime in Next 16).
+// (no next/headers), so it works in any runtime.
 //
 // A token is `v1.<expiry>.<hmac>`. The HMAC key mixes ADMIN_SESSION_SECRET with
 // a hash of ADMIN_PASSWORD, so changing either one signs everybody out.

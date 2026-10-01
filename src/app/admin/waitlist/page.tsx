@@ -46,7 +46,7 @@ function group(entries: WaitlistEntry[]): Group[] {
 }
 
 export default async function WaitlistPage() {
-  await requireAdmin();
+  await requireAdmin("/admin/waitlist");
   if (!storeReady()) {
     return (
       <>
