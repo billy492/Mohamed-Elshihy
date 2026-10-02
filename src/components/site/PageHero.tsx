@@ -14,6 +14,7 @@ export default function PageHero({
   film,
   image,
   cta,
+  byline = "Shihy",
 }: {
   title: string;
   lines?: string[];
@@ -22,6 +23,8 @@ export default function PageHero({
   film?: Film;
   image?: string;
   cta?: { href: string; label: string };
+  /** The name after the kicker in the tag; null hides it. */
+  byline?: string | null;
 }) {
   return (
     <section className="page-hero" aria-labelledby="page-title">
@@ -40,7 +43,8 @@ export default function PageHero({
       ) : null}
       <div className="page-hero-shade" aria-hidden="true" />
       <span className="tag">
-        <b>{kicker}</b> Shihy
+        <b>{kicker}</b>
+        {byline ? ` ${byline}` : null}
       </span>
       <Split as="h1" id="page-title" className="t-mega page-hero-title" text={title} lines={lines} />
       <div className="page-hero-foot">

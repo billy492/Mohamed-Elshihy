@@ -17,6 +17,7 @@ export default function MentorshipPage() {
       <PageHero
         title="Mentorship"
         kicker="Coming soon"
+        byline={null}
         lede={mentorshipLede}
         image={work.sessionPlan.src}
       />

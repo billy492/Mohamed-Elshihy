@@ -19,6 +19,7 @@ export default function CoachingPage() {
       <PageHero
         title="Coaching"
         kicker="Online & hybrid"
+        byline={null}
         lede="High performance coaching for athletes and high-achieving professionals, built around one thing: you."
         image={work.hurdleSession.src}
         cta={{ href: "/apply", label: "Apply for coaching" }}
