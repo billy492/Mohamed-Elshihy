@@ -22,7 +22,7 @@ export const site = {
 
 export const nav = [
   { href: "/coaching", label: "Coaching" },
-  { href: "/about", label: "About" },
-  { href: "/film-room", label: "Film room" },
   { href: "/mentorship", label: "Mentorship" },
+  { href: "/film-room", label: "Film room" },
+  { href: "/about", label: "About" },
 ] as const;
