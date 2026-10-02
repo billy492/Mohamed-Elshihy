@@ -19,7 +19,6 @@ export default function MentorshipPage() {
         kicker="Coming soon"
         lede={mentorshipLede}
         image={work.sessionPlan.src}
-        cta={{ href: "/coaching", label: "Coaching programs" }}
       />
 
       <section className="section" aria-labelledby="offer-title">
