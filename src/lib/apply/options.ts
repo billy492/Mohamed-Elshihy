@@ -19,8 +19,8 @@ export const PATHWAYS = opts([
   { id: "online", label: "Online: general & recreational", hint: "For general population, recreational athletes and independent trainers" },
   { id: "athlete", label: "Online: competitive / pro athlete", hint: "For athletes training independently, built around your competition calendar" },
   { id: "premium", label: "Premium (hybrid)", hint: "Online programming with in-person facility support" },
-  { id: "pro", label: "Pro: performance", hint: "Invite only. For elite athletes chasing the extra 10%" },
-  { id: "rehab", label: "Pro: rehab & return to play", hint: "Invite only. For athletes recovering from major injury" },
+  { id: "pro", label: "Pro: performance", hint: "Limited spots. For elite athletes chasing the extra 10%" },
+  { id: "rehab", label: "Pro: rehab & return to play", hint: "Limited spots. For athletes recovering from major injury" },
   { id: "unsure", label: "I'm not sure yet", hint: "Shihy will recommend one" },
 ] as const);
 

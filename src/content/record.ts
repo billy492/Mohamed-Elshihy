@@ -1,41 +1,45 @@
-// Shihy's record. Sources: his Instagram bio and highlights (Sep 2026), Youm7
-// (3 Nov 2023) on his move from Al Ahly basketball to the football first team.
-// CONFIRM: years for Revolt Fitness, ALTIS and Gym Jones; whether to list his
-// degrees (a directory listing mentions the German University in Cairo and
-// Swansea University, which we could not verify).
+// Shihy's record. Sources: his own experience and certification list (Oct
+// 2026), his Instagram bio and highlights (Sep 2026), and Youm7 (3 Nov 2023) on
+// his move from Al Ahly basketball to the football first team.
 
 export type RecordItem = { when: string; what: string; where: string; note?: string };
 
-// Al Ahly: six years and "more than 18 championships" in his own words
-// (farewell post, 9 Aug 2026); the move from basketball to the football first
-// team is from Youm7 (3 Nov 2023).
+// Career history. Al Ahly stays here, as roles, and nowhere in the headlines.
 export const roles: RecordItem[] = [
   {
     when: "Now",
     what: "Fitness director",
-    where: "Revolt Fitness, Cairo",
+    where: "REVOLT, Cairo",
+  },
+  {
+    when: "11 years",
+    what: "Coaching experience",
+    where: "Athletes and private clients",
   },
   {
     when: "2023 to 2026",
     what: "Physical coach, football first team",
     where: "Al Ahly SC",
-    note: "Joined the football staff in November 2023, preparing players for matches and bringing them back from injury.",
   },
   {
     when: "Until 2023",
     what: "Strength and conditioning coach, basketball",
     where: "Al Ahly SC",
   },
-  {
-    when: "6 years",
-    what: "More than 18 championships",
-    where: "Al Ahly SC",
-  },
 ];
 
+// His certification list (Oct 2026). CFSC (2022) is from his Instagram and
+// wasn't on the list he sent: CONFIRM he wants it shown.
 export const education: RecordItem[] = [
-  { when: "In progress", what: "MSc Strength and Conditioning", where: "ALTIS" },
+  { when: "In progress", what: "MSc Strength, Conditioning and Coaching", where: "ALTIS" },
   { when: "Certified", what: "Fully certified instructor", where: "Gym Jones" },
+  { when: "Certified", what: "Performance Specialist", where: "EXOS" },
+  { when: "Certified", what: "Functional Range Conditioning Mobility Specialist", where: "FRC" },
+  { when: "Certified", what: "Certified Physical Preparation Specialist", where: "CPPS" },
+  { when: "Certified", what: "Special Strengths Coach", where: "Westside Barbell" },
+  { when: "Certified", what: "CCP Coach", where: "OPEX" },
+  { when: "Certified", what: "Level 1 Trainer", where: "CrossFit" },
+  { when: "Certified", what: "Weightlifting", where: "CrossFit" },
   { when: "2022", what: "Certified Functional Strength Coach", where: "CFSC" },
 ];
 
@@ -52,8 +56,23 @@ export const words = {
   simple: "The goal is to understand complexity well enough to make it simple.",
   teach: "Learn deeply. Think critically. Simplify. Teach.",
   system: "The program isn't the system. The system is the ability to keep making better decisions.",
-  alAhly: "Al Ahly taught me there's no ceiling to ambition, and that the small details are what make the difference.",
+  formula: "Expectations + encouragement + confidence in ability = transcendent physical ability.",
 } as const;
+
+// A line he lives by, in someone else's words.
+export const armani = {
+  text: "To create something exceptional, your mindset must be relentlessly focused on the smallest details.",
+  by: "Giorgio Armani",
+} as const;
+
+// "Principles and core values", from his own list (Oct 2026).
+export const values = [
+  { k: "Bring energy, every day", v: "Positive energy, every session. The athletes feed off you." },
+  { k: "Coaching is relationships", v: "Successful coaching is about building relationships with your athletes." },
+  { k: "Never stop learning", v: "There is always room for improvement." },
+  { k: "Keep the bar raised", v: "High standards, every day." },
+  { k: "Humble. Hungry. Committed.", v: "Committed to excellence." },
+] as const;
 
 export const philosophy = [
   { k: "Start with a question", v: "What does this athlete actually need?" },

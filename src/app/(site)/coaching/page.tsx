@@ -9,7 +9,7 @@ import { work } from "@/content/media";
 export const metadata: Metadata = {
   title: "Coaching",
   description:
-    "High performance coaching by Mohamed El Shihy: Online, Online for competitive athletes, Premium (hybrid) and Pro, by application and invitation. Find the problem. Fix the problem.",
+    "High performance coaching by Mohamed El Shihy: Online, Online for competitive athletes, Premium (hybrid) and Pro, with limited spots. Find the problem. Fix the problem.",
 };
 
 // Shihy's client brochure (Sep 2026), in full.
@@ -19,7 +19,7 @@ export default function CoachingPage() {
       <PageHero
         title="Coaching"
         kicker="Online & hybrid"
-        lede="Welcome to Shihy's Online & Hybrid coaching, built around one thing: you."
+        lede="High performance coaching for athletes and high-achieving professionals, built around one thing: you."
         image={work.hurdleSession.src}
         cta={{ href: "/apply", label: "Apply for coaching" }}
       />

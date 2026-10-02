@@ -64,7 +64,7 @@ export default async function OpenGraphImage() {
         </svg>
         <div style={{ display: "flex", justifyContent: "space-between", fontSize: 30, letterSpacing: 2 }}>
           <span>SHIHY</span>
-          <span style={{ color: "#8a8a86" }}>6 YEARS · AL AHLY SC · 18+ TITLES</span>
+          <span style={{ color: "#8a8a86" }}>11 YEARS · HIGH PERFORMANCE COACHING</span>
         </div>
         <div style={{ display: "flex", flexDirection: "column", fontSize: 118, lineHeight: 0.84 }}>
           <span>FIND THE PROBLEM.</span>

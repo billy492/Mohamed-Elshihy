@@ -9,11 +9,11 @@ import { work } from "@/content/media";
 import { words } from "@/content/record";
 
 // The coach himself. The portrait develops like a print in the tray: it opens
-// from a sliver, and the colour (the Al Ahly red) comes up out of the black
+// from a sliver, and the colour (the brand red) comes up out of the black
 // and white as the section scrolls through. The numbers run up once, on sight.
 const STATS = [
-  { to: 6, pad: 2, suffix: "", label: "Years at Al Ahly SC" },
-  { to: 18, pad: 2, suffix: "+", label: "Championships" },
+  { to: 11, pad: 2, suffix: "", label: "Years coaching" },
+  { to: 8, pad: 2, suffix: "", label: "Certifications" },
   { to: 32, pad: 2, suffix: "K", label: "Follow his work" },
 ];
 
@@ -71,7 +71,7 @@ export default function Coach() {
           loading="lazy"
           decoding="async"
         />
-        <figcaption className="cch-cap">Al Ahly SC</figcaption>
+        <figcaption className="cch-cap">On the floor</figcaption>
       </figure>
       <div className="cch-copy">
         <span className="tag">
@@ -79,7 +79,7 @@ export default function Coach() {
         </span>
         <Split as="h2" id="cch-title" className="t-h1 cch-name" text="Mohamed El Shihy" lines={["Mohamed", "El Shihy"]} />
         <blockquote className="cch-quote">
-          <p>{words.person}</p>
+          <p>{words.formula}</p>
         </blockquote>
         <dl ref={statsRef} className="cch-stats">
           {STATS.map((s) => (

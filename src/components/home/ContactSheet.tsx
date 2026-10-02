@@ -64,9 +64,9 @@ export default function ContactSheet() {
     <section ref={rootRef} className="cs" data-tone="chalk" aria-labelledby="cs-title">
       <div className="cs-stick">
         <header className="cs-head">
-          <Split as="h2" id="cs-title" className="cs-title" text="On the pitch." lines={["On the", "pitch."]} />
+          <Split as="h2" id="cs-title" className="cs-title" text="On the floor." lines={["On the", "floor."]} />
           <p className="t-lede cs-lede">
-            Six years inside Al Ahly SC. The warm-ups, the drills, the night sessions: the work behind the titles.
+            Eleven years on the floor with athletes: the warm-ups, the drills, the details nobody sees.
           </p>
         </header>
         <div className="cs-film">

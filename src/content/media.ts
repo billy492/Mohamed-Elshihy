@@ -56,7 +56,7 @@ const ig = (file: string, ar: number, alt: string, post: string): Shot => ({
 });
 
 export const shots = {
-  pitch: ig("shihy-pitch-v1", 0.75, "Mohamed El Shihy on the training pitch in Al Ahly kit", "Db0n9JbDSwR"),
+  pitch: ig("shihy-pitch-v1", 0.75, "Mohamed El Shihy on the training pitch", "Db0n9JbDSwR"),
   redbull: ig("shihy-redbull-apc-v1", 0.75, "Shihy at the Red Bull Athlete Performance Center in Los Angeles", "DcBboPbnH3_"),
   redbullWalk: ig("shihy-redbull-walk-v1", 0.75, "Walking into the Red Bull Athlete Performance Center", "Dbn3nL0mwNn"),
   coachingTalk: ig("coaching-talk-v1", 0.5625, "Shihy talking an athlete through a session", "DZ-XmWhNIBF"),
@@ -81,19 +81,19 @@ export type Photo = { src: string; ar: number; alt: string };
 const own = (file: string, ar: number, alt: string): Photo => ({ src: `/assets/shihy/${file}-v1.jpg`, ar, alt });
 
 export const work = {
-  portraitSmile: own("portrait-smile", 0.8, "Mohamed El Shihy smiling at an Al Ahly training session"),
-  portraitBall: own("portrait-ball", 0.8, "Shihy on the pitch in Al Ahly training kit, ball in hand"),
+  portraitSmile: own("portrait-smile", 0.8, "Mohamed El Shihy smiling at a training session"),
+  portraitBall: own("portrait-ball", 0.8, "Shihy on the pitch in training kit, ball in hand"),
   portraitStadium: own("portrait-stadium", 0.8, "Shihy in the stadium before a match"),
   sidelineChair: own("sideline-chair", 0.667, "Shihy leaning on a chair at the side of the training pitch"),
-  staffHuddle: own("staff-huddle", 1, "Three Al Ahly staff talking on the pitch"),
+  staffHuddle: own("staff-huddle", 1, "Three coaches talking on the pitch"),
   gymRotate: own("gym-landmine-rotate", 0.75, "An athlete rotating a landmine bar in the gym"),
   gymPress: own("gym-landmine-press", 0.75, "An athlete pressing a landmine bar overhead"),
-  squadWarmup: own("squad-warmup", 1.5, "Shihy leading the Al Ahly squad through a running warm-up"),
+  squadWarmup: own("squad-warmup", 1.5, "Shihy leading a squad through a running warm-up"),
   coachingPlayers: own("coaching-players", 1.5, "Shihy explaining a drill to players"),
   pitchWalk: own("pitch-walk", 1.5, "Shihy walking the pitch with a colleague"),
   pitchDrill: own("pitch-drill", 1.5, "Shihy working one to one with a player on the pitch"),
   recoveryMat: own("recovery-mat", 0.8, "Shihy kneeling on a mat with foam rollers, a player stretching behind"),
-  hurdleSession: own("hurdle-session", 1.246, "A hurdle mobility session with the Al Ahly squad"),
+  hurdleSession: own("hurdle-session", 1.246, "A hurdle mobility session with a squad"),
   squadRun: own("squad-run", 0.8, "Players running with Shihy at training"),
   nightDrill: own("night-drill", 1.504, "A night session: Shihy and a coach setting up a drill"),
   sprintDemo: own("sprint-demo", 0.8, "Shihy demonstrating a running drill"),

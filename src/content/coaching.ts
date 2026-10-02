@@ -40,8 +40,8 @@ export const tiers: Tier[] = [
     id: "online",
     program: "Program 01, Foundation",
     name: "Online",
-    badge: "General & recreational",
-    who: "For general population, recreational athletes, and independent trainers. Minor injury rehab included where appropriate.",
+    badge: "Professionals & recreational",
+    who: "For high-achieving professionals with demanding schedules, recreational athletes, and independent trainers. Minor injury rehab included where appropriate.",
     plus: "What's included",
     includes: [
       "Initial consultation & goal-setting session",
@@ -105,16 +105,16 @@ export const tiers: Tier[] = [
     id: "pro",
     program: "Program 04, Elite performance",
     name: "Pro",
-    badge: "Invite only · 5 clients",
-    who: "By application and invitation only.",
+    badge: "Limited spots · 5 clients",
+    who: "By application. Spots are limited to five clients.",
     tracks: [
       {
         name: "Performance",
-        text: "For elite athletes chasing the extra 10%, and clients who want the closest possible coaching relationship. By application and invitation only.",
+        text: "For elite athletes chasing the extra 10%, and clients who want the closest possible coaching relationship. By application; limited spots.",
       },
       {
         name: "Rehab & return-to-play",
-        text: "For athletes recovering from major injury, working toward a full, structured return to play. By application and invitation only.",
+        text: "For athletes recovering from major injury, working toward a full, structured return to play. By application; limited spots.",
       },
     ],
     plus: "Everything in Premium, plus",
@@ -218,6 +218,11 @@ export const problems = [
     fix: "A clear progression, adjusted by what the numbers show rather than by feel.",
   },
   {
+    name: "High output, no time",
+    find: "Your schedule, travel, sleep and stress, and how much training you can realistically fit around them.",
+    fix: "Efficient sessions that fit the calendar, with recovery built in, so training gives you energy instead of taking it.",
+  },
+  {
     name: "Always sore, always tired",
     find: "Sleep, spikes in workload, nutrition timing and how your sessions are structured.",
     fix: "Load you can recover from, and a plan that adapts week to week.",
@@ -236,11 +241,15 @@ export const testimonials: Testimonial[] = [];
 
 // The credentials ticker. Every line is sourced (see content/record.ts).
 export const credentials = [
-  "6 years at Al Ahly SC",
-  "18+ championships",
+  "11 years coaching",
   "MSc Strength & Conditioning, ALTIS (in progress)",
-  "Gym Jones certified instructor",
-  "Certified Functional Strength Coach",
-  "Fitness director, Revolt Fitness",
+  "Fitness director, REVOLT",
+  "Gym Jones fully certified instructor",
+  "EXOS Performance Specialist",
+  "FRC Mobility Specialist",
+  "CPPS",
+  "Westside Barbell Special Strengths Coach",
+  "OPEX CCP Coach",
+  "CrossFit L1 & Weightlifting",
   "Red Bull Athlete Performance Center, 2026",
 ];

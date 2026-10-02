@@ -68,7 +68,7 @@ const personJsonLd = {
   "@type": "Person",
   name: site.name,
   alternateName: [site.short, site.arabic],
-  jobTitle: "Performance coach",
+  jobTitle: "High performance coach",
   alumniOf: { "@type": "SportsOrganization", name: "Al Ahly SC" },
   sameAs: [site.social.instagram.href, site.social.youtube.href],
   url: site.url,

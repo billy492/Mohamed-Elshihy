@@ -18,7 +18,6 @@ export default function Hero() {
   const rootRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const readRef = useRef<HTMLDivElement>(null);
 
   // Armed before first paint, so nothing flashes in and out.
   useIsoLayoutEffect(() => {
@@ -29,7 +28,6 @@ export default function Hero() {
     const root = rootRef.current!;
     const stage = stageRef.current!;
     const canvas = canvasRef.current!;
-    const read = readRef.current!;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const mobile = window.innerWidth < 760;
     registerGsap();
@@ -109,21 +107,6 @@ export default function Hero() {
       else last = 0;
     }
 
-    const setReading = (r: { x: number; y: number; cm: number; alpha: number; relabel: number; ink: number } | null) => {
-      if (!r || r.alpha <= 0.01) {
-        read.style.opacity = "0";
-        return;
-      }
-      read.style.opacity = r.alpha.toFixed(3);
-      // keep the whole reading on screen, whatever the camera does
-      const maxX = stage.clientWidth - read.offsetWidth - 12;
-      const x = Math.max(12, Math.min(r.x + 12, maxX));
-      read.style.transform = `translate3d(${Math.round(x)}px, ${Math.round(r.y - (mobile ? 44 : 52))}px, 0)`;
-      read.dataset.fixed = r.ink > 0.5 ? "1" : "0";
-      read.querySelector<HTMLElement>(".hero-read-cm")!.textContent = `${r.cm} cm`;
-      read.style.setProperty("--relabel", r.relabel.toFixed(3));
-    };
-
     (async () => {
       // download three.js while the loader counts, build the scene when it finishes
       const [{ createHeroScene }] = await Promise.all([
@@ -147,7 +130,9 @@ export default function Hero() {
       if (scene) {
         let { w, h } = size();
         scene.resize(w, h);
-        render = () => setReading(scene.frame(t, smooth, pointer, dt));
+        render = () => {
+          scene.frame(t, smooth, pointer, dt);
+        };
         render(); // one warm-up frame compiles the shaders while the loader runs
         const ro = new ResizeObserver(() => {
           const s = size();
@@ -217,17 +202,9 @@ export default function Hero() {
         <canvas ref={canvasRef} className="hero-canvas" aria-hidden="true" />
         <div className="hero-vignette" aria-hidden="true" />
         <p className="sr-only">
-          A chronophotograph of a sprinter. The analysis marks the foot landing 45 centimetres ahead of the
-          hip, which brakes every step, then corrects the stride so the foot lands under the body.
+          A chronophotograph of a sprinter: the analysis finds the stride fault, then corrects it so the foot
+          lands under the body.
         </p>
-
-        <div ref={readRef} className="hero-read" aria-hidden="true">
-          <span className="hero-read-k">
-            Foot lands <span className="hero-read-cm">45 cm</span> ahead of the hip
-          </span>
-          <span className="hero-read-a">Braking on every step</span>
-          <span className="hero-read-b">Landing under the body. Force goes into speed.</span>
-        </div>
 
         <div className="hero-top">
           <p className="hero-kicker">
@@ -247,7 +224,7 @@ export default function Hero() {
 
         <div className="hero-foot">
           <p className="hero-intro">
-            Online &amp; hybrid coaching, built around one thing: you.
+            Online &amp; hybrid coaching for athletes and high-achieving professionals.
           </p>
           <div className="hero-actions">
             <Link className="btn btn-solid" href="/apply" data-cursor="Apply">

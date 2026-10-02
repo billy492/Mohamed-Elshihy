@@ -96,7 +96,7 @@ export const COACHING_STEPS: Step[] = [
     id: "pathway",
     nav: "Coaching",
     title: "Which coaching do you want?",
-    intro: "Not sure is a fine answer. Shihy will recommend one after reading your application. Pro is by application and invitation only.",
+    intro: "Not sure is a fine answer. Shihy will recommend one after reading your application. Pro has limited spots.",
     fields: [{ kind: "choice", name: "pathway", label: "Coaching", options: PATHWAYS, layout: "cards" }],
   },
   {

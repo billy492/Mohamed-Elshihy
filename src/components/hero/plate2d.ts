@@ -149,22 +149,5 @@ export function drawFrame(ctx: CanvasRenderingContext2D, L: Layout, t: number, f
     ctx.stroke();
     ctx.setLineDash([]);
   }
-
-  const label = easeOut(prog(t, T.label));
-  if (label > 0) {
-    const cm = Math.round(c.x * ATHLETE_CM);
-    const relabel = prog(t, T.relabel);
-    const lx = Math.min(hipX, w - (mobile ? 180 : 250));
-    const ly = dimY + (mobile ? 12 : 14);
-    ctx.textBaseline = "top";
-    ctx.font = `500 ${mobile ? 12 : 13.5}px ${font}`;
-    ctx.fillStyle = rgba(ink, label);
-    ctx.fillText(`Foot lands ${cm} cm ahead of the hip`, lx, ly);
-    ctx.font = `${mobile ? 11 : 12.5}px ${font}`;
-    ctx.fillStyle = rgba(SILVER, label * (1 - relabel));
-    ctx.fillText("Braking on every step", lx, ly + (mobile ? 16 : 19));
-    ctx.fillStyle = rgba(SILVER, relabel);
-    ctx.fillText("Landing under the body: force goes into speed", lx, ly + (mobile ? 16 : 19));
-  }
 }
 

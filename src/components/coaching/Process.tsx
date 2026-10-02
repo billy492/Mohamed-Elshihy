@@ -1,6 +1,7 @@
 import Split from "@/components/site/Split";
 import { philosophyText, processText } from "@/content/coaching";
 import { site } from "@/content/site";
+import { armani } from "@/content/record";
 
 // "Process & Philosophy", from Shihy's client brochure.
 export default function Process() {
@@ -20,6 +21,10 @@ export default function Process() {
           <p className="t-lede">{philosophyText}</p>
         </div>
       </div>
+      <blockquote className="about-quote">
+        <p>{armani.text}</p>
+        <cite>{armani.by}</cite>
+      </blockquote>
     </section>
   );
 }

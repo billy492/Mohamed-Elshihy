@@ -3,7 +3,7 @@ import PageHero from "@/components/site/PageHero";
 import Split from "@/components/site/Split";
 import Ticker from "@/components/site/Ticker";
 import FinalCta from "@/components/home/FinalCta";
-import { education, learning, philosophy, roles, words } from "@/content/record";
+import { education, learning, philosophy, roles, values, words } from "@/content/record";
 import { shots, work } from "@/content/media";
 import { imgSrcSet } from "@/lib/img";
 import { credentials } from "@/content/coaching";
@@ -12,7 +12,7 @@ import { site } from "@/content/site";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Mohamed El Shihy: six years and 18+ titles with Al Ahly SC, fitness director at Revolt Fitness, MSc Strength and Conditioning student at ALTIS and Gym Jones certified instructor.",
+    "Mohamed El Shihy: high performance coach with 11 years of experience, fitness director at REVOLT, MSc Strength and Conditioning student at ALTIS and Gym Jones fully certified instructor.",
 };
 
 
@@ -23,7 +23,7 @@ export default function AboutPage() {
         title={site.name}
         lines={["Mohamed", "El Shihy"]}
         kicker="The coach"
-        lede="Six years and 18+ titles with Al Ahly SC. Coach, educator, mentor. Obsessed with finding the problem."
+        lede="Eleven years coaching athletes and high achievers. Coach, educator, mentor. Obsessed with finding the problem."
         image={work.portraitBall.src}
         cta={{ href: "/apply", label: "Apply for coaching" }}
       />
@@ -33,13 +33,13 @@ export default function AboutPage() {
         <header className="section-head">
           <Split as="h2" id="record-title" className="t-h1" text="The record" />
           <p className="t-lede section-lede">
-            Six years at Al Ahly SC, from the basketball team to the football first team, and more than 18
-            championships. Then a new chapter.
+            Eleven years of coaching, from professional team sport to private clients. Now fitness director at
+            REVOLT, coaching athletes and high-achieving professionals.
           </p>
         </header>
         <blockquote className="about-quote">
-          <p>{words.alAhly}</p>
-          <cite>Shihy, leaving Al Ahly, August 2026</cite>
+          <p>{words.formula}</p>
+          <cite>Mohamed El Shihy</cite>
         </blockquote>
         <div className="about-photos">
           {[work.staffEmbrace, work.staffHug].map((p) => (
@@ -96,7 +96,23 @@ export default function AboutPage() {
         </dl>
       </section>
 
-      <section className="section" aria-labelledby="phil-title">
+      <section className="section" aria-labelledby="values-title">
+        <header className="section-head">
+          <Split as="h2" id="values-title" className="t-h1" text="Core values" lines={["Core", "values"]} />
+          <p className="t-lede section-lede">The principles he coaches by.</p>
+        </header>
+        <ol className="principles">
+          {values.map((p, i) => (
+            <li key={p.k}>
+              <span className="prb-n">0{i + 1}</span>
+              <h3>{p.k}</h3>
+              <p>{p.v}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section className="section section-chalk" data-tone="chalk" aria-labelledby="phil-title">
         <header className="section-head">
           <Split
             as="h2"
